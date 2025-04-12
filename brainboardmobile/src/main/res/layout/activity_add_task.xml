@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addTaskLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:background="@android:color/white">
+
+    <EditText
+        android:id="@+id/taskTitleInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter task title"
+        android:inputType="text"
+        android:padding="12dp" />
+
+    <TextView
+        android:id="@+id/dueDateTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select due date and time"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnVoiceInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎤 Use Voice Input" />
+
+    <Button
+        android:id="@+id/btnPickDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📅 Pick Date &amp; Time"
+        android:layout_marginTop="12dp" />
+
+    <Button
+        android:id="@+id/btnSaveTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="💾 Save Task"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

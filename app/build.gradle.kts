@@ -42,4 +42,5 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.wear)
+    implementation(libs.firebase.firestore)
 }
