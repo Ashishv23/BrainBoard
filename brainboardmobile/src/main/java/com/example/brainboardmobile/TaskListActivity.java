@@ -1,6 +1,9 @@
 package com.example.brainboardmobile;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -40,6 +43,19 @@ public class TaskListActivity extends AppCompatActivity {
         binding.taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskAdapter = new TaskAdapter(taskList, this, firestoreHelper);
         binding.taskRecyclerView.setAdapter(taskAdapter);
+
+
+    // Display UID
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    binding.uidTextView.setText("UID: " + uid);
+
+    // Copy UID to clipboard on click
+    binding.uidTextView.setOnClickListener(v -> {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("User UID", uid);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(this, "UID copied to clipboard", Toast.LENGTH_SHORT).show();
+    });
 
         // Load tasks in real-time
         fetchTasksRealtime();
