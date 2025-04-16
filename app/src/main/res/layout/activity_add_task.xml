@@ -2,37 +2,63 @@
 <androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="8dp"
     android:background="@android:color/black">
 
-    <LinearLayout
-        android:id="@+id/addTaskLayout"
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal|center_vertical">
+        android:fillViewport="true">
 
-        <EditText
-            android:id="@+id/taskInput"
-            android:hint="@string/enter_task_hint"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/addTaskLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#AAAAAA" />
+            android:gravity="center_horizontal"
+            android:padding="12dp">
 
-        <Button
-            android:id="@+id/voiceInputButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/voice_input"
-            android:layout_marginTop="12dp" />
+            <EditText
+                android:id="@+id/taskInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter task"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#CCCCCC"
+                android:inputType="text"
+                android:maxLines="2"
+                android:background="@android:drawable/edit_text"
+                android:padding="6dp" />
 
-        <Button
-            android:id="@+id/saveTaskButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_task"
-            android:layout_marginTop="12dp" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/voiceInputButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎤 Voice Input"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/pickDateTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⏰ Pick Time"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:id="@+id/dueTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No time selected"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="6dp"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/saveTaskButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💾 Save Task"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.wear.widget.BoxInsetLayout>
