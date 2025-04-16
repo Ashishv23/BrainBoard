@@ -3,6 +3,7 @@
     <string name="sample_task">Sample Task</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="login">Login</string>
 
     <string name="enter_task_hint">Enter task</string>
     <string name="voice_input">🎤 Voice Input</string>
