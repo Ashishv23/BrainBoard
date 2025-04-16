@@ -12,7 +12,7 @@
         android:id="@+id/taskTitleInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter task title"
+        android:hint="@string/enter_task_title"
         android:inputType="text"
         android:padding="12dp" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/dueDateTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select due date and time"
+        android:text="@string/select_due_date_time"
         android:textStyle="bold"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
@@ -30,20 +30,20 @@
         android:id="@+id/btnVoiceInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="🎤 Use Voice Input" />
+        android:text="@string/use_voice_input" />
 
     <Button
         android:id="@+id/btnPickDateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="📅 Pick Date &amp; Time"
+        android:text="@string/pick_date_time"
         android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/btnSaveTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="💾 Save Task"
+        android:text="@string/save_task"
         android:layout_marginTop="24dp" />
 
 </LinearLayout>
