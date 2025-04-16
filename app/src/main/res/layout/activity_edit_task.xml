@@ -15,7 +15,7 @@
             android:id="@+id/taskEditInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Edit task"
+            android:hint="@string/edit_task_hint"
             android:textColor="#FFFFFF"
             android:textColorHint="#AAAAAA"
             android:inputType="text" />
@@ -24,14 +24,14 @@
             android:id="@+id/voiceEditButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Speak"
+            android:text="@string/speak"
             android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/saveEditedTaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="@string/save"
             android:layout_marginTop="12dp"/>
     </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

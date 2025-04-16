@@ -14,7 +14,7 @@
 
         <EditText
             android:id="@+id/taskInput"
-            android:hint="Enter task"
+            android:hint="@string/enter_task_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -25,14 +25,14 @@
             android:id="@+id/voiceInputButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🎤 Voice Input"
+            android:text="@string/voice_input"
             android:layout_marginTop="12dp" />
 
         <Button
             android:id="@+id/saveTaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save Task"
+            android:text="@string/save_task"
             android:layout_marginTop="12dp" />
     </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

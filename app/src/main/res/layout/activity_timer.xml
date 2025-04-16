@@ -15,7 +15,7 @@
             android:id="@+id/timerText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="25:00"
+            android:text="@string/default_timer"
             android:textSize="32sp"
             android:textColor="@android:color/white"
             android:padding="8dp" />
@@ -24,7 +24,7 @@
             android:id="@+id/startStopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
+            android:text="@string/start"
             android:layout_marginTop="16dp" />
     </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

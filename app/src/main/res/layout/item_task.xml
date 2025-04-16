@@ -10,7 +10,7 @@
         android:id="@+id/taskText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample Task"
+        android:text="@string/sample_task"
         android:textSize="16sp"
         android:textColor="#FFFFFF"
         android:padding="4dp" />
@@ -24,13 +24,13 @@
             android:id="@+id/editTaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit" />
+            android:text="@string/edit" />
 
         <Button
             android:id="@+id/deleteTaskButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="@string/delete"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 </LinearLayout>
