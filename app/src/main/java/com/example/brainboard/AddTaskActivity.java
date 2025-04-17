@@ -5,9 +5,7 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.widget.Toast;
@@ -15,14 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.brainboard.databinding.ActivityAddTaskBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class AddTaskActivity extends Activity {
 
@@ -30,6 +24,7 @@ public class AddTaskActivity extends Activity {
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 101;
     private final Calendar calendar = Calendar.getInstance();
     private String formattedDateTime = null;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +32,19 @@ public class AddTaskActivity extends Activity {
         binding = ActivityAddTaskBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Voice Input Button
+        db = FirebaseFirestore.getInstance();
+
+        // Check if UID is available
+        String uid = MainActivity.getGlobalUid();
+        if (uid == null || uid.isEmpty()) {
+            Toast.makeText(this, "UID not set. Please login first.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         binding.voiceInputButton.setOnClickListener(view -> startVoiceRecognition());
+        binding.pickDateTimeButton.setOnClickListener(view -> showDatePicker());
 
-        // Date & Time Picker
-        binding.pickDateTimeButton.setOnClickListener(v -> showDatePicker());
-
-        // Save Task
         binding.saveTaskButton.setOnClickListener(view -> {
             String task = binding.taskInput.getText().toString().trim();
             if (task.isEmpty()) {
@@ -56,11 +57,57 @@ public class AddTaskActivity extends Activity {
             }
 
             String taskId = UUID.randomUUID().toString();
-            saveTaskLocally(task, formattedDateTime);
+            saveTaskToFirestore(taskId, task, formattedDateTime);
             scheduleNotification(taskId, task, formattedDateTime);
             Toast.makeText(this, "Task saved!", Toast.LENGTH_SHORT).show();
             finish();
         });
+    }
+
+    private void saveTaskToFirestore(String taskId, String title, String dueTime) {
+        String uid = MainActivity.getGlobalUid();
+        if (uid == null || uid.isEmpty()) {
+            Toast.makeText(this, "UID not set. Please login.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> taskMap = new HashMap<>();
+        taskMap.put("taskId", taskId);
+        taskMap.put("title", title);
+        taskMap.put("dueDateTime", dueTime);
+        taskMap.put("completed", false);
+
+        db.collection("users")
+                .document(uid)
+                .collection("tasks")
+                .document(taskId)
+                .set(taskMap)
+                .addOnSuccessListener(unused -> {})
+                .addOnFailureListener(e -> e.printStackTrace());
+    }
+
+    private void scheduleNotification(String taskId, String taskTitle, String dueTime) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS", Locale.getDefault());
+            long dueMillis = sdf.parse(dueTime).getTime();
+            long triggerTime = dueMillis - 60 * 60 * 1000;
+
+            if (triggerTime <= System.currentTimeMillis()) {
+                triggerTime = System.currentTimeMillis() + 3000;
+            }
+
+            Intent intent = new Intent(this, NotificationReceiver.class);
+            intent.putExtra("taskTitle", taskTitle);
+            intent.putExtra("taskId", taskId);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    this, taskId.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void startVoiceRecognition() {
@@ -84,73 +131,28 @@ public class AddTaskActivity extends Activity {
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches != null && !matches.isEmpty()) {
                 binding.taskInput.setText(matches.get(0));
-            } else {
-                Toast.makeText(this, "No speech recognized. Try again.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void showDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year, month, dayOfMonth) -> {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    showTimePicker();
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-        datePickerDialog.show();
+        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            showTimePicker();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void showTimePicker() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                (view, hourOfDay, minute) -> {
-                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                    calendar.set(Calendar.MINUTE, minute);
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS", Locale.getDefault());
-                    formattedDateTime = sdf.format(calendar.getTime());
-                    binding.dueTimeText.setText("Due: " + formattedDateTime);
-                },
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                true);
-        timePickerDialog.show();
-    }
-
-    private void saveTaskLocally(String taskTitle, String dueDateTime) {
-        SharedPreferences prefs = getSharedPreferences("taskPrefs", MODE_PRIVATE);
-        Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
-        Set<String> updatedSet = new HashSet<>(taskSet);
-        updatedSet.add(taskTitle + "||" + dueDateTime);
-        prefs.edit().putStringSet("taskList", updatedSet).apply();
-    }
-
-    private void scheduleNotification(String taskId, String taskTitle, String dueTime) {
-        try {
+        new TimePickerDialog(this, (view, hourOfDay, minute) -> {
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS", Locale.getDefault());
-            long dueMillis = sdf.parse(dueTime).getTime();
-            long triggerTime = dueMillis - 60 * 60 * 1000; // 1 hour before
-
-            if (triggerTime <= System.currentTimeMillis()) {
-                triggerTime = System.currentTimeMillis() + 3000; // 3 sec later (for test/demo)
-            }
-
-            Intent intent = new Intent(this, NotificationReceiver.class);
-            intent.putExtra("taskTitle", taskTitle);
-            intent.putExtra("taskId", taskId);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    this, taskId.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE);
-
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            formattedDateTime = sdf.format(calendar.getTime());
+            binding.dueTimeText.setText("Due: " + formattedDateTime);
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
     }
 }
