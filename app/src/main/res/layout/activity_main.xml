@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/start_timer"
+                android:text="@string/pomodoro"
                 android:textColor="@color/colorButtonText"
                 android:backgroundTint="@color/colorButtonBackground" />
 
