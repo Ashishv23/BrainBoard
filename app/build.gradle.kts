@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -7,7 +8,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.brainboard"
+        applicationId = "com.example.brainboard.wear"
         minSdk = 30
         targetSdk = 35
         versionCode = 1
@@ -42,5 +43,6 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.wear)
+    implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
 }

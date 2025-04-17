@@ -20,7 +20,7 @@
                 android:id="@+id/taskEditInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Edit task"
+                android:hint="@string/edit_task_hint"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#AAAAAA"
                 android:inputType="text" />
@@ -29,21 +29,21 @@
                 android:id="@+id/voiceEditButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🎤 Speak"
+                android:text="@string/save"
                 android:layout_marginTop="8dp" />
 
             <Button
                 android:id="@+id/pickDateTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="⏰ Pick Time"
+                android:text="@string/pick_time"
                 android:layout_marginTop="12dp" />
 
             <TextView
                 android:id="@+id/dueTimeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No time selected"
+                android:text="@string/no_time_selected"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="6dp" />
 
@@ -51,7 +51,7 @@
                 android:id="@+id/saveEditedTaskButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="💾 Save"
+                android:text="@string/save"
                 android:layout_marginTop="12dp"/>
         </LinearLayout>
     </ScrollView>

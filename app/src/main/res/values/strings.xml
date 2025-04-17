@@ -19,4 +19,6 @@
 
     <string name="default_timer">25:00</string>
     <string name="start">Start</string>
+    <string name="no_time_selected">No time selected</string>
+    <string name="pick_time">Pick Time</string>
 </resources>

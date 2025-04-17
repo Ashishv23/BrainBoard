@@ -36,16 +36,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         public void bind(String task, int position, List<String> taskList, Context context, TaskAdapter adapter) {
-            binding.taskText.setText(task);
+            String[] parts = task.split("\\|\\|");
+            String title = parts[0];
+            String dueTime = parts.length > 1 ? parts[1] : "No Time";
+            String taskId = parts.length > 2 ? parts[2] : String.valueOf(title.hashCode());
 
-            // Edit button: Launch EditTaskActivity with current task
+            binding.taskText.setText(title + "\nDue: " + dueTime);
+
             binding.editTaskButton.setOnClickListener(v -> {
                 Intent intent = new Intent(context, EditTaskActivity.class);
                 intent.putExtra("oldTask", task);
                 context.startActivity(intent);
             });
 
-            // Delete button: Remove from SharedPreferences and refresh list
             binding.deleteTaskButton.setOnClickListener(v -> {
                 new android.app.AlertDialog.Builder(context)
                         .setTitle("Delete Task")
@@ -55,14 +58,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                             Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
                             Set<String> updatedSet = new HashSet<>(taskSet);
 
-                            if (updatedSet.contains(task)) {
-                                updatedSet.remove(task);
-                                prefs.edit().putStringSet("taskList", updatedSet).apply();
+                            updatedSet.remove(task);
+                            prefs.edit().putStringSet("taskList", updatedSet).apply();
 
-                                taskList.remove(position);
-                                adapter.notifyItemRemoved(position);
-                                Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
-                            }
+                            taskList.remove(position);
+                            adapter.notifyItemRemoved(position);
+                            Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
