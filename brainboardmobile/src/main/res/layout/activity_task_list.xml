@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp"
-    android:background="@android:color/white">
+    android:padding="@dimen/padding_small"
+    android:background="@color/background_white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,24 +16,24 @@
             android:layout_height="wrap_content"
             android:text="@string/add_task"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="@dimen/margin_large"/>
 
         <TextView
             android:id="@+id/uidTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_small"
             android:textStyle="italic"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="@dimen/margin_small" />
 
         <TextView
             android:id="@+id/taskListTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/your_tasks"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="@dimen/margin_small" />
 
         <androidx.wear.widget.WearableRecyclerView
             android:id="@+id/taskRecyclerView"
@@ -49,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/logout"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

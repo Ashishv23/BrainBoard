@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_time_selected"
-                android:textColor="@color/colorTextPrimary"
+                android:textColor="@color/colorTextSecondary"
                 android:layout_marginTop="@dimen/margin_small"
                 android:textSize="@dimen/text_small" />
 

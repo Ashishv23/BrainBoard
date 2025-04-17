@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="@dimen/padding_large"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/background_white">
 
     <EditText
         android:id="@+id/emailInput"
@@ -13,7 +12,7 @@
         android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"/>
+        android:layout_marginBottom="@dimen/margin_medium"/>
 
     <EditText
         android:id="@+id/passwordInput"
@@ -21,19 +20,19 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="@dimen/padding_medium"/>
 
     <Button
         android:id="@+id/loginButton"
         android:text="@string/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="@dimen/padding_small" />
 
     <TextView
         android:id="@+id/registerRedirect"
         android:text="@string/register_redirect"
-        android:textColor="#0000EE"
+        android:textColor="@color/link_blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

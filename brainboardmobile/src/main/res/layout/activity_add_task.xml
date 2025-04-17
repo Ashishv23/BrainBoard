@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addTaskLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="@dimen/padding_large"
     android:gravity="center"
-    android:background="@android:color/white">
+    android:background="@color/background_white">
 
     <EditText
         android:id="@+id/taskTitleInput"
@@ -14,7 +13,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_task_title"
         android:inputType="text"
-        android:padding="12dp" />
+        android:padding="@dimen/padding_small" />
 
     <TextView
         android:id="@+id/dueDateTimeText"
@@ -22,9 +21,9 @@
         android:layout_height="wrap_content"
         android:text="@string/select_due_date_time"
         android:textStyle="bold"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:textSize="16sp" />
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_medium"
+        android:textSize="@dimen/text_size_small" />
 
     <Button
         android:id="@+id/btnVoiceInput"
@@ -37,13 +36,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pick_date_time"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="@dimen/margin_medium" />
 
     <Button
         android:id="@+id/btnSaveTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_task"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="@dimen/margin_large" />
 
 </LinearLayout>
