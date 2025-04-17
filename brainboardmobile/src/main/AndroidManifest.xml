@@ -12,15 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BrainBoard">
         <activity
-            android:name=".TaskListActivity"
+            android:name=".activities.TaskListActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="false" />
-        <activity android:name=".AddTaskActivity"
+        <activity android:name=".activities.AddTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

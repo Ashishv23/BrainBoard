@@ -1,4 +1,4 @@
-package com.example.brainboard;
+package com.example.brainboard.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

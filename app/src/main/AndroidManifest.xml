@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.DayNight.NoActionBar">
         <activity
-            android:name=".EditTaskActivity"
+            android:name=".activities.EditTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".TimerActivity"
+            android:name=".activities.TimerActivity"
             android:exported="false" />
 
         <meta-data
@@ -25,7 +25,7 @@
             android:value="true" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true"
             android:taskAffinity=""
             android:theme="@style/Theme.Material3.DayNight.NoActionBar">
@@ -36,13 +36,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TaskListActivity"
+            android:name=".activities.TaskListActivity"
             android:exported="false" />
         <activity
-            android:name=".AddTaskActivity"
+            android:name=".activities.AddTaskActivity"
             android:exported="false" />
 
-        <receiver android:name=".NotificationReceiver" android:exported="true" />
+        <receiver android:name=".notifications.NotificationReceiver" android:exported="true" />
 
     </application>
 

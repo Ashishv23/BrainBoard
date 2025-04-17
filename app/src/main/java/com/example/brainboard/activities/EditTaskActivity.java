@@ -1,4 +1,4 @@
-package com.example.brainboard;
+package com.example.brainboard.activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.brainboard.notifications.NotificationReceiver;
 import com.example.brainboard.databinding.ActivityEditTaskBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 

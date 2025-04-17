@@ -1,4 +1,4 @@
-package com.example.brainboardmobile;
+package com.example.brainboardmobile.activities;
 
 import android.Manifest;
 import android.app.DatePickerDialog;

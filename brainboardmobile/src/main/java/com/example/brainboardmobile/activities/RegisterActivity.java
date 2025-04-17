@@ -1,4 +1,4 @@
-package com.example.brainboardmobile;
+package com.example.brainboardmobile.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

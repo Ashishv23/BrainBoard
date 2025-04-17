@@ -1,4 +1,4 @@
-package com.example.brainboard;
+package com.example.brainboard.notifications;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

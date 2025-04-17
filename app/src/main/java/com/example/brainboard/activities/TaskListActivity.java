@@ -1,4 +1,4 @@
-package com.example.brainboard;
+package com.example.brainboard.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.wear.widget.WearableLinearLayoutManager;
 
+import com.example.brainboard.adapters.TaskAdapter;
 import com.example.brainboard.databinding.ActivityTaskListBinding;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;

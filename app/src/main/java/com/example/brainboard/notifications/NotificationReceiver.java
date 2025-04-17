@@ -1,4 +1,4 @@
-package com.example.brainboard;
+package com.example.brainboard.notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.brainboard.R;
 
 public class NotificationReceiver extends BroadcastReceiver {
 

@@ -1,4 +1,4 @@
-package com.example.brainboard;
+package com.example.brainboard.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.brainboard.activities.EditTaskActivity;
+import com.example.brainboard.activities.MainActivity;
 import com.example.brainboard.databinding.ItemTaskBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 

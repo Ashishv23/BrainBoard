@@ -1,4 +1,4 @@
-package com.example.brainboardmobile;
+package com.example.brainboardmobile.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.brainboardmobile.activities.AddTaskActivity;
 import com.example.brainboardmobile.databinding.ItemTaskBinding;
 import com.example.brainboardmobile.firebase.FirestoreHelper;
 import com.example.brainboardmobile.models.TaskModel;

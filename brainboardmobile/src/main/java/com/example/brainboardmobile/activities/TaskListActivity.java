@@ -1,4 +1,4 @@
-package com.example.brainboardmobile;
+package com.example.brainboardmobile.activities;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -8,23 +8,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.brainboardmobile.adapters.TaskAdapter;
 import com.example.brainboardmobile.databinding.ActivityTaskListBinding;
 import com.example.brainboardmobile.firebase.FirestoreHelper;
 import com.example.brainboardmobile.models.TaskModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 public class TaskListActivity extends AppCompatActivity {
 
