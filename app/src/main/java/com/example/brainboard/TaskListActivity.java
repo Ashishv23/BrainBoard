@@ -39,6 +39,12 @@ public class TaskListActivity extends Activity {
         fetchTasksFromFirestore();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        fetchTasksFromFirestore();
+    }
+
     private void fetchTasksFromFirestore() {
         String uid = MainActivity.getGlobalUid();
 

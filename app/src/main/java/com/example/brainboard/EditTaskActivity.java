@@ -9,18 +9,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.brainboard.databinding.ActivityEditTaskBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public class EditTaskActivity extends Activity {
 
@@ -30,7 +28,11 @@ public class EditTaskActivity extends Activity {
 
     private String originalTaskEntry;
     private String originalTitle;
+    private String originalDueTime;
+    private String originalTaskId;
     private String formattedDateTime;
+
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,16 @@ public class EditTaskActivity extends Activity {
         binding = ActivityEditTaskBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        db = FirebaseFirestore.getInstance();
+
         // Extract original data
         originalTaskEntry = getIntent().getStringExtra("oldTask");
         if (originalTaskEntry != null && originalTaskEntry.contains("||")) {
             String[] parts = originalTaskEntry.split("\\|\\|");
             originalTitle = parts[0];
-            formattedDateTime = parts[1];
+            originalDueTime = parts.length >= 2 ? parts[1] : "";
+            originalTaskId = parts.length >= 3 ? parts[2] : String.valueOf(originalTitle.hashCode());
+            formattedDateTime = originalDueTime;
             binding.taskEditInput.setText(originalTitle);
             binding.dueTimeText.setText("Due: " + formattedDateTime);
         }
@@ -51,47 +57,75 @@ public class EditTaskActivity extends Activity {
         // Voice input
         binding.voiceEditButton.setOnClickListener(v -> startVoiceRecognition());
 
-        // Date-Time picker
+        // Time Picker
         binding.pickDateTimeButton.setOnClickListener(v -> showDatePicker());
 
-        // Save button
+        // Save
         binding.saveEditedTaskButton.setOnClickListener(v -> {
             String updatedTitle = binding.taskEditInput.getText().toString().trim();
 
             if (updatedTitle.isEmpty()) {
-                Toast.makeText(this, "Task cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Task title cannot be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (formattedDateTime == null) {
+            if (formattedDateTime == null || formattedDateTime.isEmpty()) {
                 Toast.makeText(this, "Please select a due time", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            updateTask(originalTaskEntry, updatedTitle + "||" + formattedDateTime);
+            String updatedEntry = updatedTitle + "||" + formattedDateTime + "||" + originalTaskId;
+            updateTaskLocally(originalTaskEntry, updatedEntry);
+            updateTaskInFirestore(updatedTitle, formattedDateTime);
             scheduleNotification(updatedTitle, formattedDateTime);
+
             Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT).show();
             finish();
         });
     }
 
+    private void updateTaskLocally(String oldTask, String newTask) {
+        SharedPreferences prefs = getSharedPreferences("taskPrefs", MODE_PRIVATE);
+        Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
+        Set<String> updatedSet = new HashSet<>(taskSet);
+        updatedSet.remove(oldTask);
+        updatedSet.add(newTask);
+        prefs.edit().putStringSet("taskList", updatedSet).apply();
+    }
+
+    private void updateTaskInFirestore(String title, String dueTime) {
+        String uid = MainActivity.getGlobalUid();
+        if (uid == null || uid.isEmpty()) return;
+
+        Map<String, Object> taskMap = new HashMap<>();
+        taskMap.put("title", title);
+        taskMap.put("dueDateTime", dueTime);
+        taskMap.put("taskId", originalTaskId);
+        taskMap.put("completed", false);
+
+        db.collection("users")
+                .document(uid)
+                .collection("tasks")
+                .document(originalTaskId)
+                .set(taskMap)
+                .addOnSuccessListener(unused -> Log.d("EditTask", "✅ Firestore task updated"))
+                .addOnFailureListener(e -> Log.e("EditTask", "❌ Firestore update failed", e));
+    }
+
     private void startVoiceRecognition() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your updated task...");
-
         try {
             startActivityForResult(intent, SPEECH_REQUEST_CODE);
         } catch (Exception e) {
-            Toast.makeText(this, "Speech input not supported", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Voice input not supported", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (results != null && !results.isEmpty()) {
@@ -101,64 +135,40 @@ public class EditTaskActivity extends Activity {
     }
 
     private void showDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, year, month, day) -> {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.DAY_OF_MONTH, day);
-                    showTimePicker();
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.show();
+        new DatePickerDialog(this, (view, year, month, day) -> {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, month);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+            showTimePicker();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void showTimePicker() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                (view, hour, minute) -> {
-                    calendar.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar.set(Calendar.MINUTE, minute);
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS", Locale.getDefault());
-                    formattedDateTime = sdf.format(calendar.getTime());
-                    binding.dueTimeText.setText("Due: " + formattedDateTime);
-                },
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                true);
-        timePickerDialog.show();
-    }
-
-    private void updateTask(String oldTask, String newTask) {
-        SharedPreferences prefs = getSharedPreferences("taskPrefs", MODE_PRIVATE);
-        Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
-        Set<String> updatedSet = new HashSet<>(taskSet);
-
-        updatedSet.remove(oldTask);
-        updatedSet.add(newTask);
-
-        prefs.edit().putStringSet("taskList", updatedSet).apply();
+        new TimePickerDialog(this, (view, hour, minute) -> {
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minute);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS", Locale.getDefault());
+            formattedDateTime = sdf.format(calendar.getTime());
+            binding.dueTimeText.setText("Due: " + formattedDateTime);
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
     }
 
     private void scheduleNotification(String taskTitle, String dueTime) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS", Locale.getDefault());
             long dueMillis = sdf.parse(dueTime).getTime();
-            long triggerTime = dueMillis - (60 * 60 * 1000); // 1 hour before
-
+            long triggerTime = dueMillis - (60 * 60 * 1000);
             if (triggerTime <= System.currentTimeMillis()) {
-                triggerTime = System.currentTimeMillis() + 5000; // fallback: 5s later
+                triggerTime = System.currentTimeMillis() + 5000;
             }
 
             Intent intent = new Intent(this, NotificationReceiver.class);
             intent.putExtra("taskTitle", taskTitle);
-            intent.putExtra("taskId", String.valueOf(taskTitle.hashCode()));
+            intent.putExtra("taskId", originalTaskId);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    this, taskTitle.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE);
-
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, originalTaskId.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE);
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
         } catch (Exception e) {

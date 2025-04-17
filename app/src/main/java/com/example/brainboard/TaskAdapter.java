@@ -3,6 +3,7 @@ package com.example.brainboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.brainboard.databinding.ItemTaskBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -58,12 +60,28 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                             Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
                             Set<String> updatedSet = new HashSet<>(taskSet);
 
-                            updatedSet.remove(task);
-                            prefs.edit().putStringSet("taskList", updatedSet).apply();
+                            if (updatedSet.contains(task)) {
+                                updatedSet.remove(task);
+                                prefs.edit().putStringSet("taskList", updatedSet).apply();
 
-                            taskList.remove(position);
-                            adapter.notifyItemRemoved(position);
-                            Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
+                                String uid = MainActivity.getGlobalUid();
+                                if (uid != null && !uid.isEmpty()) {
+                                    FirebaseFirestore.getInstance()
+                                            .collection("users")
+                                            .document(uid)
+                                            .collection("tasks")
+                                            .document(taskId)
+                                            .delete()
+                                            .addOnSuccessListener(unused ->
+                                                    Log.d("FirestoreDelete", "✅ Deleted task " + taskId))
+                                            .addOnFailureListener(e ->
+                                                    Log.e("FirestoreDelete", "❌ Failed to delete " + taskId, e));
+                                }
+
+                                taskList.remove(position);
+                                adapter.notifyItemRemoved(position);
+                                Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
+                            }
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
