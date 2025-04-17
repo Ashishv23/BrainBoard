@@ -26,6 +26,36 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 
+/**
+ * AddTaskActivity.java (Mobile)
+ *
+ * This activity allows users to create or edit a task in the BrainBoard mobile app.
+ *
+ * Features:
+ * - Create new tasks or update existing ones (edit mode via Intent extras)
+ * - Supports speech-to-text input for task title (requires RECORD_AUDIO permission)
+ * - Date and time pickers for setting task deadlines
+ * - Task data is saved or updated in Firebase Firestore via FirestoreHelper
+ *
+ * UI Components:
+ * - taskTitleInput: EditText for task title
+ * - dueDateTimeText: TextView displaying selected date and time
+ * - btnVoiceInput: Triggers speech recognition input
+ * - btnPickDateTime: Launches date and time pickers
+ * - btnSaveTask: Saves or updates the task in Firestore
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityAddTaskBinding)
+ * - FirestoreHelper for database operations
+ * - TaskModel for task data representation
+ *
+ * Notes:
+ * - Handles microphone permission dynamically
+ * - Uses UUID for new task IDs
+ * - Format used for dueDateTime: "dd/MM/yyyy HH:mm"
+ */
+
+
 public class AddTaskActivity extends AppCompatActivity {
 
     private ActivityAddTaskBinding binding;

@@ -18,6 +18,36 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TaskListActivity.java
+ *
+ * Displays a scrollable list of the user's tasks in the BrainBoard app using a WearOS-friendly UI.
+ *
+ * Features:
+ * - Fetches task data from Firebase Firestore under the current user's UID.
+ * - Each task entry includes title, due date/time, and task ID.
+ * - Shows tasks in reverse chronological order (most recent first).
+ * - Uses a custom RecyclerView adapter (TaskAdapter) for display.
+ * - Displays a message when there are no tasks to show.
+ *
+ * UI:
+ * - RecyclerView with WearableLinearLayoutManager for optimized WearOS interaction.
+ * - Text view fallback when no tasks exist.
+ *
+ * Data Format:
+ * - Tasks are loaded into a list as formatted strings: "title||dueDateTime||taskId"
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityTaskListBinding)
+ * - Firebase Firestore
+ * - FirebaseApp initialization
+ * - Wearable UI components (WearableLinearLayoutManager)
+ *
+ * Prerequisites:
+ * - User must be authenticated; UID is obtained from MainActivity.getGlobalUid()
+ */
+
+
 public class TaskListActivity extends Activity {
 
     private ActivityTaskListBinding binding;

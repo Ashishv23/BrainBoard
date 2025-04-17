@@ -16,6 +16,36 @@ import androidx.wear.widget.BoxInsetLayout;
 
 import com.example.brainboard.databinding.ActivityMainBinding;
 
+/**
+ * MainActivity.java
+ *
+ * The main launcher activity for the BrainBoard app on Android Wear and mobile.
+ * Serves as the central hub to access all key features of the app.
+ *
+ * Features:
+ * - Navigation buttons to:
+ *     - AddTaskActivity: Create new tasks
+ *     - TaskListActivity: View and manage existing tasks
+ *     - TimerActivity: Focus timer for study sessions
+ *     - FactActivity: Display a fun fact with a random image
+ *     - ChartActivity: Visualize task data with a bar chart
+ * - Manual login system using UID input, saved to SharedPreferences and global memory
+ *
+ * UID Management:
+ * - UID is stored using SharedPreferences under key "firebase_uid"
+ * - A static `getGlobalUid()` method is used by other activities to retrieve the UID
+ * - UID input is handled via a popup dialog with input validation
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityMainBinding)
+ * - SharedPreferences for local UID persistence
+ * - AndroidX Wear BoxInsetLayout for wearable-compatible UI
+ *
+ * Prerequisites:
+ * - User must input a valid Firebase UID to access features that sync with Firestore
+ */
+
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;

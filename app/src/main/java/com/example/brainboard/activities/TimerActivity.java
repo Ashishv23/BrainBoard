@@ -8,6 +8,31 @@ import android.app.AlertDialog;
 
 import com.example.brainboard.databinding.ActivityTimerBinding;
 
+/**
+ * TimerActivity.java
+ *
+ * This activity provides a 25-minute Pomodoro-style countdown timer to help users stay focused.
+ *
+ * Features:
+ * - Start/Stop button toggles the timer.
+ * - Displays countdown in MM:SS format.
+ * - Alerts the user with a Toast when the session completes.
+ * - Confirms before exiting if the timer is currently running.
+ *
+ * Timer Logic:
+ * - Uses Android's CountDownTimer for precise countdown management.
+ * - Resets to 25 minutes after each completion or stop.
+ *
+ * UI:
+ * - Uses ViewBinding (ActivityTimerBinding)
+ * - Timer text and button dynamically update based on state.
+ *
+ * Lifecycle Handling:
+ * - Cancels timer onDestroy to avoid memory leaks.
+ * - Prompts user via AlertDialog before navigating back while timer is active.
+ */
+
+
 public class TimerActivity extends Activity {
 
     private ActivityTimerBinding binding;

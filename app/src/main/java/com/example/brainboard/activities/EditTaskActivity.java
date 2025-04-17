@@ -21,6 +21,31 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * EditTaskActivity.java
+ *
+ * This activity allows users to edit an existing task in the BrainBoard app.
+ * Features:
+ * - Loads the original task data (title, due time, task ID) passed via Intent.
+ * - Lets users update task details via text or voice input.
+ * - Users can reschedule the task's due date and time using date & time pickers.
+ * - Updates both local SharedPreferences and remote Firestore.
+ * - Reschedules notification to trigger 1 hour before the updated due time.
+ *
+ * Task Format:
+ * - Passed and saved in the format: "title||dueDateTime||taskId"
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityEditTaskBinding)
+ * - Firebase Firestore
+ * - SharedPreferences (for local task cache)
+ * - AlarmManager and BroadcastReceiver for notifications
+ *
+ * Prerequisites:
+ * - User must be authenticated and UID must be available from MainActivity.getGlobalUid()
+ */
+
+
 public class EditTaskActivity extends Activity {
 
     private ActivityEditTaskBinding binding;

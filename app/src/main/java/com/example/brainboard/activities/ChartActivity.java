@@ -22,6 +22,32 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+/**
+ * ChartActivity.java
+ *
+ * This activity visualizes the user's tasks using a bar chart to show how many tasks
+ * are due on each day.
+ *
+ * Features:
+ * - Fetches all tasks from Firebase Firestore under the current user's UID.
+ * - Extracts and groups tasks by date (day and month).
+ * - Uses MPAndroidChart (BarChart) to display the number of tasks due per day.
+ *
+ * Visualization:
+ * - X-axis: Dates (formatted as dd/MM)
+ * - Y-axis: Number of tasks due on that date
+ * - Custom labels and styling for better readability
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityChartBinding)
+ * - Firebase Firestore
+ * - MPAndroidChart library for chart rendering
+ *
+ * Prerequisites:
+ * - User must be authenticated; UID is obtained from MainActivity.getGlobalUid()
+ */
+
+
 public class ChartActivity extends Activity {
 
     private ActivityChartBinding binding;

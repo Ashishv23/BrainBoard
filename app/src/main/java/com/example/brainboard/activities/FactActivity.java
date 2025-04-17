@@ -17,6 +17,29 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * FactActivity.java
+ *
+ * This activity displays a fun and engaging combination of a random image and a random fact.
+ *
+ * Features:
+ * - Fetches a random image from https://picsum.photos and displays it.
+ * - Fetches a random fact from the Useless Facts API (https://uselessfacts.jsph.pl).
+ * - Displays the image and overlays it with the fetched fact.
+ *
+ * Threading:
+ * - Uses ExecutorService to handle image and fact fetching on background threads.
+ * - UI is updated on the main thread using runOnUiThread().
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityFactBinding)
+ * - Internet access permission must be enabled in AndroidManifest.xml
+ *
+ * Note:
+ * - This activity is designed for lightweight, motivational or informative content display.
+ */
+
+
 public class FactActivity extends AppCompatActivity {
 
     private ActivityFactBinding binding;

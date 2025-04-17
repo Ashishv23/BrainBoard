@@ -12,6 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * FirestoreHelper.java
+ *
+ * A utility class that encapsulates all Firebase Firestore operations for task management
+ * in the BrainBoard app.
+ *
+ * Features:
+ * - Fetches tasks from Firestore and maps them to TaskModel objects
+ * - Adds or updates a task in Firestore
+ * - Deletes a task from Firestore
+ *
+ * Usage:
+ * - Requires access to a valid Firebase UID stored in SharedPreferences ("wearPrefs")
+ * - Methods provide callbacks for success handling (Consumer for fetch, Runnable for others)
+ *
+ * Dependencies:
+ * - Firebase Firestore
+ * - SharedPreferences for UID access
+ * - TaskModel (custom model class for task objects)
+ *
+ * Notes:
+ * - The `updateTask()` method is an alias for `addTask()` (since Firestore `.set()` overwrites)
+ * - Gracefully handles null UID scenarios and logs errors
+ */
+
+
 public class FirestoreHelper {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();

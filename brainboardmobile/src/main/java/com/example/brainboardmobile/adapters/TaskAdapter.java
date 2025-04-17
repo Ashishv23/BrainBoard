@@ -17,6 +17,34 @@ import com.example.brainboardmobile.models.TaskModel;
 
 import java.util.List;
 
+/**
+ * TaskAdapter.java (Mobile)
+ *
+ * RecyclerView Adapter for displaying and managing a list of TaskModel items
+ * in the BrainBoard mobile app.
+ *
+ * Features:
+ * - Displays each task title in a custom list item layout (item_task.xml via ViewBinding)
+ * - Allows users to:
+ *     - Edit a task by opening AddTaskActivity with existing data
+ *     - Delete a task with confirmation via AlertDialog
+ *
+ * Data Flow:
+ * - Accepts a list of TaskModel objects to render
+ * - Uses FirestoreHelper to perform delete operations on Firebase Firestore
+ *
+ * UI Components per item:
+ * - taskText: Displays the task title
+ * - editTaskButton: Launches edit screen
+ * - deleteTaskButton: Prompts for and deletes task
+ *
+ * Dependencies:
+ * - ViewBinding (ItemTaskBinding)
+ * - TaskModel (data class for task details)
+ * - FirestoreHelper (backend interaction for deleting tasks)
+ * - AddTaskActivity (for editing)
+ */
+
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private final List<TaskModel> taskList;

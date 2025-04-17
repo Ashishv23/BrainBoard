@@ -21,6 +21,38 @@ import com.google.firebase.firestore.DocumentChange;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TaskListActivity.java (Mobile)
+ *
+ * Displays a real-time list of user tasks in the BrainBoard mobile app.
+ *
+ * Features:
+ * - Uses Firestore snapshot listener to reflect task changes (add, edit, delete) in real-time.
+ * - Allows users to:
+ *     - View their UID and copy it to the clipboard
+ *     - Add new tasks via AddTaskActivity
+ *     - Log out securely with confirmation
+ *
+ * UI Components:
+ * - RecyclerView for displaying tasks using TaskAdapter
+ * - UID TextView (tap to copy UID)
+ * - Add Task button
+ * - Logout button with AlertDialog confirmation
+ *
+ * Data Handling:
+ * - Uses FirestoreHelper to connect to Firebase Firestore
+ * - Updates taskList and notifies TaskAdapter on Firestore document changes (ADDED, MODIFIED, REMOVED)
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityTaskListBinding)
+ * - FirebaseAuth for current user context and logout
+ * - FirestoreHelper and TaskModel for backend interaction
+ *
+ * Notes:
+ * - Uses `FirebaseAuth.getInstance().getCurrentUser().getUid()` to fetch and show UID
+ */
+
+
 public class TaskListActivity extends AppCompatActivity {
 
     private ActivityTaskListBinding binding;

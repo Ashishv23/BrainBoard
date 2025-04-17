@@ -15,6 +15,36 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.UUID;
 
+/**
+ * FirestoreHelper.java (Mobile)
+ *
+ * A helper class to manage all Firestore interactions for task operations in the BrainBoard mobile app.
+ *
+ * Features:
+ * - Provides access to the authenticated user's task collection in Firestore.
+ * - Adds, updates, deletes, and marks tasks as completed.
+ * - Supports real-time task fetching via Firestore snapshot listeners.
+ *
+ * Methods:
+ * - getUserTasksCollection(): Returns the Firestore CollectionReference for the current user's tasks.
+ * - addTask(): Adds a new task or overwrites an existing one by ID.
+ * - deleteTask(): Deletes a task by its ID.
+ * - updateTask(): Rewrites a task document with updated information.
+ * - fetchAllTasks(): Attaches a snapshot listener to keep task list updated in real-time.
+ * - markTaskCompleted(): Updates the `completed` status field of a task.
+ *
+ * Dependencies:
+ * - FirebaseFirestore for backend storage
+ * - FirebaseAuth to identify the current user
+ * - TaskModel as the data structure for tasks
+ *
+ * Notes:
+ * - All operations use Firestore's async task listeners for success and failure handling.
+ * - Ensures that each task has a unique ID (UUID generated if not provided).
+ * - Assumes the user is authenticated and UID is always available (no null checks for `getCurrentUser()`).
+ */
+
+
 public class FirestoreHelper {
     private static final String TAG = "FirestoreHelper";
 

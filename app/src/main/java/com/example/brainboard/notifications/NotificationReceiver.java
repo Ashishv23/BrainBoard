@@ -12,6 +12,34 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.brainboard.R;
 
+/**
+ * NotificationReceiver.java
+ *
+ * A BroadcastReceiver responsible for handling scheduled task reminders and notification actions
+ * in the BrainBoard app.
+ *
+ * Features:
+ * - Displays a notification when a task is due soon
+ * - Handles three user actions directly from the notification:
+ *     - ✔️ Mark as Done: Removes the task from SharedPreferences (can be extended)
+ *     - 🔁 Snooze: Reschedules the reminder 5 minutes later
+ *     - ❌ Dismiss: Dismisses the notification without action
+ *
+ * Notification Details:
+ * - Uses Android's NotificationManager and NotificationCompat
+ * - Creates a notification channel (required for Android 8+)
+ * - Notification includes three interactive action buttons
+ *
+ * Dependencies:
+ * - NotificationUtils: Utility class to handle rescheduling for snooze
+ * - SharedPreferences ("taskPrefs"): Used to simulate marking a task as done
+ *
+ * Notes:
+ * - `taskTitle` and `taskId` are passed via Intent extras to identify the task.
+ * - `taskId.hashCode()` is used as the notification ID for uniqueness.
+ */
+
+
 public class NotificationReceiver extends BroadcastReceiver {
 
     public static final String CHANNEL_ID = "brainboard_wear_channel";

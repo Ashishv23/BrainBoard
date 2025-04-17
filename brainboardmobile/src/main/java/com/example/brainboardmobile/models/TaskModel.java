@@ -1,5 +1,26 @@
 package com.example.brainboardmobile.models;
 
+/**
+ * TaskModel.java (Mobile)
+ *
+ * A data model class representing a study task in the BrainBoard mobile app.
+ * Used to map data to and from Firebase Firestore.
+ *
+ * Fields:
+ * - taskId: Unique identifier for the task
+ * - title: The task description or title
+ * - dueDateTime: Due date and time as a string (Format: "dd/MM/yyyy HH:mm")
+ * - completed: Boolean flag indicating whether the task is completed
+ *
+ * Constructors:
+ * - Empty constructor required for Firebase deserialization
+ * - Parameterized constructor for easy instantiation
+ *
+ * Notes:
+ * - All fields use standard Java getters and setters
+ * - Used across FirestoreHelper, adapters, and UI components
+ */
+
 public class TaskModel {
     private String taskId;
     private String title;

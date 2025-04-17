@@ -10,6 +10,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.brainboardmobile.databinding.ActivityLoginBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * LoginActivity.java (Mobile)
+ *
+ * Handles user login for the BrainBoard mobile app using Firebase Authentication.
+ *
+ * Features:
+ * - Allows users to log in with email and password.
+ * - Redirects to TaskListActivity upon successful login.
+ * - Redirects to RegisterActivity for new account creation.
+ * - Automatically skips login screen if the user is already authenticated.
+ *
+ * UI Components:
+ * - emailInput: EditText for user email
+ * - passwordInput: EditText for user password
+ * - loginButton: Triggers Firebase sign-in
+ * - registerRedirect: Opens RegisterActivity for new users
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityLoginBinding)
+ * - Firebase Authentication (FirebaseAuth)
+ *
+ * Notes:
+ * - Uses `TextUtils.isEmpty` for input validation.
+ */
+
+
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;

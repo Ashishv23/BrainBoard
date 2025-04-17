@@ -19,6 +19,35 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * AddTaskActivity.java
+ *
+ * This activity allows users to create a new study task in the BrainBoard app.
+ * Features:
+ * - Users can input tasks via text or voice recognition.
+ * - Users can pick a due date and time using a date and time picker dialog.
+ * - Tasks are saved to Firebase Firestore under the logged-in user's UID.
+ * - A notification is scheduled 1 hour before the task is due using AlarmManager.
+ *
+ * Firebase:
+ * - Firestore is used to store tasks in the format:
+ *   users/{uid}/tasks/{taskId}
+ *
+ * Notifications:
+ * - A local notification is triggered via a BroadcastReceiver (NotificationReceiver).
+ *
+ * Prerequisites:
+ * - Firebase must be initialized and user must be authenticated.
+ * - Global UID is fetched from MainActivity.getGlobalUid().
+ *
+ * Dependencies:
+ * - ViewBinding (ActivityAddTaskBinding)
+ * - Firebase Firestore
+ * - AlarmManager for notifications
+ * - Android speech recognition APIs
+ */
+
+
 public class AddTaskActivity extends Activity {
 
     private ActivityAddTaskBinding binding;

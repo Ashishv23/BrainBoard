@@ -17,6 +17,34 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+/**
+ * TaskAdapter.java
+ *
+ * RecyclerView Adapter used in TaskListActivity to display a list of user tasks.
+ *
+ * Features:
+ * - Binds task data (title, due time, task ID) to each list item view.
+ * - Allows users to:
+ *     - Edit a task via EditTaskActivity
+ *     - Delete a task from Firestore with confirmation dialog
+ *
+ * Data Format:
+ * - Each task is passed as a string in the format: "title||dueDateTime||taskId"
+ *
+ * Firebase:
+ * - Handles deletion of tasks from Firestore based on user UID from MainActivity.
+ *
+ * UI:
+ * - Uses ViewBinding (ItemTaskBinding) for each item layout.
+ * - Buttons for editing and deleting tasks are attached with listeners.
+ *
+ * Dependencies:
+ * - Firebase Firestore
+ * - MainActivity.getGlobalUid() for authenticated user context
+ * - Custom layout: item_task.xml (via ItemTaskBinding)
+ */
+
+
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private final List<String> taskList;
