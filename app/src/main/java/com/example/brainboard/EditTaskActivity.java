@@ -107,8 +107,8 @@ public class EditTaskActivity extends Activity {
                 .collection("tasks")
                 .document(originalTaskId)
                 .set(taskMap)
-                .addOnSuccessListener(unused -> Log.d("EditTask", "✅ Firestore task updated"))
-                .addOnFailureListener(e -> Log.e("EditTask", "❌ Firestore update failed", e));
+                .addOnSuccessListener(unused -> Log.d("EditTask", "Firestore task updated"))
+                .addOnFailureListener(e -> Log.e("EditTask", "Firestore update failed", e));
     }
 
     private void startVoiceRecognition() {

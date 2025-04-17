@@ -60,8 +60,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                             Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
                             Set<String> updatedSet = new HashSet<>(taskSet);
 
-                            if (updatedSet.contains(task)) {
-                                updatedSet.remove(task);
+                            // Remove the task by matching its taskId
+                            String toRemove = null;
+                            for (String entry : updatedSet) {
+                                String[] entryParts = entry.split("\\|\\|");
+                                if (entryParts.length >= 3 && entryParts[2].equals(taskId)) {
+                                    toRemove = entry;
+                                    break;
+                                }
+                            }
+
+                            if (toRemove != null) {
+                                updatedSet.remove(toRemove);
                                 prefs.edit().putStringSet("taskList", updatedSet).apply();
 
                                 String uid = MainActivity.getGlobalUid();
@@ -73,14 +83,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                                             .document(taskId)
                                             .delete()
                                             .addOnSuccessListener(unused ->
-                                                    Log.d("FirestoreDelete", "✅ Deleted task " + taskId))
+                                                    Log.d("FirestoreDelete", "Deleted task " + taskId))
                                             .addOnFailureListener(e ->
-                                                    Log.e("FirestoreDelete", "❌ Failed to delete " + taskId, e));
+                                                    Log.e("FirestoreDelete", "Failed to delete " + taskId, e));
                                 }
 
                                 taskList.remove(position);
                                 adapter.notifyItemRemoved(position);
                                 Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Could not find matching task to delete", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Cancel", null)

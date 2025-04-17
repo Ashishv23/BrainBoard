@@ -3,6 +3,7 @@ package com.example.brainboard;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.wear.widget.WearableLinearLayoutManager;
@@ -59,6 +60,7 @@ public class TaskListActivity extends Activity {
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     taskList.clear();
+
                     for (QueryDocumentSnapshot doc : querySnapshot) {
                         String title = doc.getString("title");
                         String due = doc.getString("dueDateTime");
@@ -72,11 +74,21 @@ public class TaskListActivity extends Activity {
                             Log.w("FirebaseTask", "Missing fields in: " + doc.getId());
                         }
                     }
+
+                    if (taskList.isEmpty()) {
+                        binding.noTasksText.setVisibility(View.VISIBLE);
+                        binding.taskRecyclerView.setVisibility(View.GONE);
+                    } else {
+                        binding.noTasksText.setVisibility(View.GONE);
+                        binding.taskRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    
                     taskAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error fetching tasks", Toast.LENGTH_SHORT).show();
                     Log.e("FirebaseTask", "Fetch error", e);
                 });
+
     }
 }
