@@ -20,4 +20,5 @@
     <!-- Task Card -->
     <dimen name="task_item_padding">10dp</dimen>
     <dimen name="task_spacing">8dp</dimen>
+    <dimen name="chart_height">180dp</dimen>
 </resources>

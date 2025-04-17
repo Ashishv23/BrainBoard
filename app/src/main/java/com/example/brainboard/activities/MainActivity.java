@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, FactActivity.class));
         });
 
+        binding.chartRoot.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, ChartActivity.class));
+        });
+
         binding.loginButton.setOnClickListener(v -> showLoginPopup());
     }
 

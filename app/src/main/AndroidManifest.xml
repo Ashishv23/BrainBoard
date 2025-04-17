@@ -46,6 +46,10 @@
             android:name=".activities.FactActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.ChartActivity"
+            android:exported="false" />
+
         <receiver android:name=".notifications.NotificationReceiver" android:exported="true" />
 
     </application>

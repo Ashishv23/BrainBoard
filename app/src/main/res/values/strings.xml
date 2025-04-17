@@ -5,8 +5,7 @@
     <string name="delete">Delete</string>
     <string name="login">Login</string>
     <string name="news">Facts</string>
-
-
+    <string name="chart">Chart</string>
 
     <string name="enter_task_hint">Enter task</string>
     <string name="voice_input">🎤 Voice Input</string>
