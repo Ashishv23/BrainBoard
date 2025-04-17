@@ -1,6 +1,7 @@
 package com.example.brainboard;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup;
@@ -17,18 +18,24 @@ import com.example.brainboard.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding; // ViewBinding variable
-    private static String globalUid; // Global UID variable
+    private ActivityMainBinding binding;
+    private static String globalUid;
+
+    private static final String PREF_NAME = "brainboard_prefs";
+    private static final String KEY_UID = "firebase_uid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Inflate layout using ViewBinding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Button click handlers
+        // Load UID from SharedPreferences on app start
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        globalUid = prefs.getString(KEY_UID, null);
+
+        // Button handlers
         binding.addTaskButton.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AddTaskActivity.class));
         });
@@ -41,30 +48,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, TimerActivity.class));
         });
 
-        // Handle loginButton click
         binding.loginButton.setOnClickListener(v -> showLoginPopup());
     }
 
     private void showLoginPopup() {
-        // ScrollView to handle round screens safely
         ScrollView scrollView = new ScrollView(this);
         scrollView.setPadding(24, 24, 24, 24);
 
-        // BoxInsetLayout as container
-        androidx.wear.widget.BoxInsetLayout boxInsetLayout = new androidx.wear.widget.BoxInsetLayout(this);
+        BoxInsetLayout boxInsetLayout = new BoxInsetLayout(this);
         boxInsetLayout.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
         boxInsetLayout.setPadding(16, 16, 16, 16);
 
-        // Create EditText for UID input
         EditText uidInput = new EditText(this);
         uidInput.setHint("Enter UID");
         uidInput.setSingleLine(true);
         uidInput.setTextSize(20);
 
-        // Set centered layout params
+        // Show existing UID if available
+        uidInput.setText(globalUid != null ? globalUid : "");
+
         BoxInsetLayout.LayoutParams uidParams = new BoxInsetLayout.LayoutParams(
                 BoxInsetLayout.LayoutParams.MATCH_PARENT,
                 BoxInsetLayout.LayoutParams.WRAP_CONTENT
@@ -72,11 +77,9 @@ public class MainActivity extends AppCompatActivity {
         uidParams.gravity = Gravity.CENTER;
         uidInput.setLayoutParams(uidParams);
 
-        // Add to BoxInsetLayout
         boxInsetLayout.addView(uidInput);
         scrollView.addView(boxInsetLayout);
 
-        // AlertDialog with Save button only
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(scrollView)
                 .setPositiveButton("Login", (d, which) -> {
@@ -84,7 +87,12 @@ public class MainActivity extends AppCompatActivity {
                     if (uid.isEmpty()) {
                         Toast.makeText(this, "UID cannot be empty", Toast.LENGTH_SHORT).show();
                     } else {
-                        saveUidGlobally(uid);
+                        // Save to both global and SharedPreferences
+                        globalUid = uid;
+                        getSharedPreferences(PREF_NAME, MODE_PRIVATE)
+                                .edit()
+                                .putString(KEY_UID, uid)
+                                .apply();
                         Toast.makeText(this, "Saved UID: " + uid, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -92,16 +100,11 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.show();
 
-        // Make Save button smaller
         Button saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         if (saveButton != null) saveButton.setTextSize(12);
     }
 
-    private void saveUidGlobally(String uid) {
-        globalUid = uid; // Save UID globally
-    }
-
     public static String getGlobalUid() {
-        return globalUid; // Provide access to the global UID
+        return globalUid;
     }
 }
