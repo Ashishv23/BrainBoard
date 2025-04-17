@@ -18,6 +18,8 @@
     <color name="colorButtonBackground">#2C2C2C</color>
     <color name="colorButtonText">#FFFFFF</color>
 
+    <color name="transparent">#80000000</color>
+
     <!-- Task item background -->
     <color name="colorTaskItem">#1F1F1F</color>
 

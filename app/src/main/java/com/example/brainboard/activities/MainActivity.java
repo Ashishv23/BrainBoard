@@ -48,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, TimerActivity.class));
         });
 
+        binding.news.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, FactActivity.class));
+        });
+
         binding.loginButton.setOnClickListener(v -> showLoginPopup());
     }
 

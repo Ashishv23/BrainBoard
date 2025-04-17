@@ -42,6 +42,10 @@
             android:name=".activities.AddTaskActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.FactActivity"
+            android:exported="false" />
+
         <receiver android:name=".notifications.NotificationReceiver" android:exported="true" />
 
     </application>

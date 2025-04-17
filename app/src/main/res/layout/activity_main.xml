@@ -43,6 +43,16 @@
                 android:backgroundTint="@color/colorButtonBackground" />
 
             <Button
+                android:id="@+id/news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/news"
+                android:textColor="@color/colorButtonText"
+                android:backgroundTint="@color/colorButtonBackground" />
+
+
+            <Button
                 android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
