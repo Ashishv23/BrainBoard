@@ -2,8 +2,8 @@
 <androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="16dp">
+    android:background="@color/colorBackground"
+    android:padding="@dimen/padding_large">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/default_timer"
-            android:textSize="32sp"
-            android:textColor="@android:color/white"
-            android:padding="8dp" />
+            android:textSize="@dimen/text_xlarge"
+            android:textColor="@color/colorTimerText"
+            android:padding="@dimen/padding_medium" />
 
         <Button
             android:id="@+id/startStopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start"
-            android:layout_marginTop="16dp" />
+            android:textColor="@color/colorButtonText"
+            android:backgroundTint="@color/colorButtonBackground"
+            android:layout_marginTop="@dimen/margin_large" />
     </LinearLayout>
 </androidx.wear.widget.BoxInsetLayout>

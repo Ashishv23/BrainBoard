@@ -2,8 +2,8 @@
 <androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="10dp">
+    android:background="@color/colorBackground"
+    android:padding="@dimen/padding_medium">
 
     <!-- RecyclerView for tasks -->
     <androidx.wear.widget.WearableRecyclerView
@@ -12,16 +12,16 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:clipToPadding="false"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="@dimen/padding_medium" />
 
     <!-- No tasks message (initially hidden) -->
     <TextView
         android:id="@+id/noTasksText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No tasks found"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:text="@string/no_tasks_found"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/text_medium"
         android:visibility="gone"
         android:layout_gravity="center" />
 

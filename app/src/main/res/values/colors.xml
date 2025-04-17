@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App background and surface -->
+    <color name="colorBackground">#000000</color> <!-- Black -->
+    <color name="colorSurface">#1A1A1A</color>     <!-- Dark gray surface -->
+
+    <!-- Primary + Accent colors -->
+    <color name="colorPrimary">#03DAC5</color>     <!-- Teal (Wear OS accent) -->
+    <color name="colorPrimaryDark">#018786</color>
+    <color name="colorAccent">#FF4081</color>      <!-- Pink accent -->
+
+    <!-- Text colors -->
+    <color name="colorTextPrimary">#000000</color>
+    <color name="colorTextSecondary">#CCCCCC</color>
+    <color name="colorHintText">#AAAAAA</color>
+
+    <!-- Button colors -->
+    <color name="colorButtonBackground">#2C2C2C</color>
+    <color name="colorButtonText">#FFFFFF</color>
+
+    <!-- Task item background -->
+    <color name="colorTaskItem">#1F1F1F</color>
+
+    <!-- Timer specific -->
+    <color name="colorTimerText">#FFFFFF</color>
+</resources>
