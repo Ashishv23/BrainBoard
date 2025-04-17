@@ -58,7 +58,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                     // Handle marking the task as done
                     context.getSharedPreferences("taskPrefs", Context.MODE_PRIVATE)
                             .edit()
-                            .remove(taskTitle) // Optional: You can use a proper key if needed
+                            .remove(taskTitle)
                             .apply();
                     return;
 
