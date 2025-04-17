@@ -2,7 +2,6 @@ package com.example.brainboard;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -14,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.brainboard.databinding.ItemTaskBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -56,43 +52,27 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         .setTitle("Delete Task")
                         .setMessage("Are you sure you want to delete this task?")
                         .setPositiveButton("Yes", (dialog, which) -> {
-                            SharedPreferences prefs = context.getSharedPreferences("taskPrefs", Context.MODE_PRIVATE);
-                            Set<String> taskSet = prefs.getStringSet("taskList", new HashSet<>());
-                            Set<String> updatedSet = new HashSet<>(taskSet);
+                            String uid = MainActivity.getGlobalUid();
 
-                            // Remove the task by matching its taskId
-                            String toRemove = null;
-                            for (String entry : updatedSet) {
-                                String[] entryParts = entry.split("\\|\\|");
-                                if (entryParts.length >= 3 && entryParts[2].equals(taskId)) {
-                                    toRemove = entry;
-                                    break;
-                                }
-                            }
-
-                            if (toRemove != null) {
-                                updatedSet.remove(toRemove);
-                                prefs.edit().putStringSet("taskList", updatedSet).apply();
-
-                                String uid = MainActivity.getGlobalUid();
-                                if (uid != null && !uid.isEmpty()) {
-                                    FirebaseFirestore.getInstance()
-                                            .collection("users")
-                                            .document(uid)
-                                            .collection("tasks")
-                                            .document(taskId)
-                                            .delete()
-                                            .addOnSuccessListener(unused ->
-                                                    Log.d("FirestoreDelete", "Deleted task " + taskId))
-                                            .addOnFailureListener(e ->
-                                                    Log.e("FirestoreDelete", "Failed to delete " + taskId, e));
-                                }
-
-                                taskList.remove(position);
-                                adapter.notifyItemRemoved(position);
-                                Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
+                            if (uid != null && !uid.isEmpty()) {
+                                FirebaseFirestore.getInstance()
+                                        .collection("users")
+                                        .document(uid)
+                                        .collection("tasks")
+                                        .document(taskId)
+                                        .delete()
+                                        .addOnSuccessListener(unused -> {
+                                            taskList.remove(position);
+                                            adapter.notifyItemRemoved(position);
+                                            Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
+                                            Log.d("FirestoreDelete", "Deleted task: " + taskId);
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.e("FirestoreDelete", "Failed to delete task: " + taskId, e);
+                                            Toast.makeText(context, "Failed to delete task", Toast.LENGTH_SHORT).show();
+                                        });
                             } else {
-                                Toast.makeText(context, "Could not find matching task to delete", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "UID not set. Cannot delete task.", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Cancel", null)

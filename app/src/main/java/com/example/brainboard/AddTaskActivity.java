@@ -76,6 +76,7 @@ public class AddTaskActivity extends Activity {
         taskMap.put("title", title);
         taskMap.put("dueDateTime", dueTime);
         taskMap.put("completed", false);
+        taskMap.put("timestamp", com.google.firebase.firestore.FieldValue.serverTimestamp());
 
         db.collection("users")
                 .document(uid)

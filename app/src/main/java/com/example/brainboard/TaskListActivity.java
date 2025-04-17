@@ -11,6 +11,7 @@ import androidx.wear.widget.WearableLinearLayoutManager;
 import com.example.brainboard.databinding.ActivityTaskListBinding;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class TaskListActivity extends Activity {
 
         db.collection("users")
                 .document(uid)
-                .collection("tasks")
+                .collection("tasks").orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     taskList.clear();
@@ -82,7 +83,7 @@ public class TaskListActivity extends Activity {
                         binding.noTasksText.setVisibility(View.GONE);
                         binding.taskRecyclerView.setVisibility(View.VISIBLE);
                     }
-                    
+
                     taskAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
